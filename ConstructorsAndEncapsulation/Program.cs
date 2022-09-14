@@ -1,60 +1,22 @@
-﻿string[] coursesArr = {
-    "Kurs om C#", "Git och GitHub", "Databser", "Konstruktorer och Enkapsulation"};
-HtmlGenerator Website = new HtmlGenerator(h1Title: "Hej Klassen", h2Message: "Ditt meddelande", h3Class: "NE22", coursesArr);
-Website.PrintFullPage();
+﻿
+string[] coursesArr = {
+    "Kurs om C#", "Git och GitHub", "Databser"};
+HtmlGenerator Website = new HtmlGenerator(h1: "Hej klassen", h2: "Viktigt meddelande", coursesArr);
+StyleGenerator style = new StyleGenerator(h1: "Hej klassen", h2: "Viktigt meddelande", _color: "red", coursesArr);
+style.PrintPage();
+
 class HtmlGenerator
 {
-    private string docStart = "<!DOCTYPE html>\n" +
-"<html>\n" + "<body>\n";
-    private string h1 = "<h1></h1>\n";
-    private string h3 = "<h3>Klass: </h3>\n";
-    private string h2 = "<h2></h2>\n";
-    private string main = "<main>\n" + "</main>\n";
-    private string paragraph = "<p></p>\n";
-    private string docEnd = "</body>\n" + "</html>";
-    public string DocStart
-    {
-        get { return docStart; }
-        set
-        {
-            docStart = "<!DOCTYPE html>\n" +
-               "<html>\n" + "<body>\n";
-        }
-    }
-    public string H1
-    {
-        get { return h1; }
-        set { h1 = "<h1></h1>\n"; }
-    }
-    public string H2
-    {
-        get { return h2; }
-        set { h2 = "<h2></h2>\n"; }
-    }
-    public string H3
-    {
-        get { return h3; }
-        set { h3 = "<h3>Klass: </h3>\n"; }
-    }
-    public string Main
-    {
-        get { return main; }
-        set { main = "<main>\n" + "</main>\n"; }
-    }
-    public string Paragraph
-    {
-        get { return paragraph; }
-        set { paragraph = "<p></p>\n"; }
-    }
-    public string DocEnd
-    {
-        get { return docEnd; }
-        set { docEnd = "</body>\n" + "</html>"; }
-    }
+    public string docStart = "<!DOCTYPE html>\n" +
+      "<html>\n" + "<body>\n";
+    public string h1 = "<h1></h1>\n";
+    public string h2 = "<h2></h2>\n";
+    public string main = "<main>\n" + "</main>\n";
+    public string paragraph = "<p></p>\n";
+    public string docEnd = "</body>\n" + "</html>";
 
-    public HtmlGenerator(string h1Title, string h2Message, string h3Class, string[] coursesArr)
+    public HtmlGenerator(string h1, string h2, string[] coursesArr)
     {
-
         string InsertParagraphContent(string[] coursesArr)
         {
             string paragraphContent = "";
@@ -65,13 +27,29 @@ class HtmlGenerator
             return paragraphContent;
         }
         main = main.Insert(main.IndexOf("</"), InsertParagraphContent(coursesArr));
-        h1 = h1.Insert(h1.IndexOf("</"), h1Title);
-        h2 = h2.Insert(h2.IndexOf("</"), h2Message);
-        h3 = h3.Insert(h3.IndexOf("</"), h3Class);
+        this.h1 = this.h1.Insert(this.h1.IndexOf("</"), h1);
+        this.h2 = this.h2.Insert(this.h2.IndexOf("</"), h2);
     }
-
-    public void PrintFullPage()
+    public virtual void PrintPage()
     {
-        Console.WriteLine(DocStart + H1 + H3 + H2 + Main + DocEnd);
+        Console.Write(docStart + h1 + h2 + main + docEnd);
     }
 }
+class StyleGenerator : HtmlGenerator
+{
+    private string head = "<head>\n</head>\n";
+    private string style = "<style></style>\n";
+    public StyleGenerator(string h1, string h2, string _color, string[] coursesArr) : base(h1, h2, coursesArr)
+    {
+
+        head = docStart.Insert(docStart.IndexOf("<html>"), head);
+        style = head.Insert(head.IndexOf("</"), style);
+        style = style.Insert(style.IndexOf("</"), _color);
+    }
+    public override void PrintPage()
+    {
+        Console.Write(style + h1 + h2 + main + docEnd);
+    }
+}
+
+
