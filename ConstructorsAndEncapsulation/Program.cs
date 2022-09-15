@@ -4,8 +4,8 @@ string[] coursesArr = {
 HtmlGenerator Website = new HtmlGenerator(h1: "Hej klassen", h2: "Viktigt meddelande", coursesArr);
 Website.PrintPage();
 
-//StyleGenerator StyleWebsite = new StyleGenerator(h1: "Hej klassen", h2: "Viktigt meddelande", primaryColor: "red", coursesArr);
-//StyleWebsite.PrintPage();
+StyleGenerator StyleWebsite = new StyleGenerator(h1: "Hej klassen", h2: "Viktigt meddelande", primaryColor: "red", coursesArr);
+StyleWebsite.PrintPage();
 
 interface IHtmlSkeleton
 {
@@ -40,28 +40,26 @@ class HtmlGenerator : IHtmlSkeleton
         this.h2 = this.h2.Insert(this.h2.IndexOf("</"), h2);
     }
 
-    public void PrintPage()
+    public virtual void PrintPage()
     {
         Console.Write(docStart + h1 + h2 + main + docEnd);
     }
 }
 
-/*class StyleGenerator : HtmlGenerator
+class StyleGenerator : HtmlGenerator, IHtmlSkeleton
 {
-    private string head = "<head>\n</head>\n";
-    private string style = "<style></style>\n";
+    protected string head = "<head>\n</head>\n";
+    protected string style = "<style></style>\n";
 
     public StyleGenerator(string h1, string h2, string primaryColor, string[] coursesArr) : base(h1, h2, coursesArr)
     {
         head = docStart.Insert(docStart.IndexOf("<html>"), head);
         style = head.Insert(head.IndexOf("</"), style);
         style = style.Insert(style.IndexOf("</"), $"color: {primaryColor};");
-
     }
     override public void PrintPage()
     {
-        Console.Write(style + h1 + h2 + main + docEnd);
+        Console.Write("\n\n" + style + h1 + h2 + main + docEnd);
     }
-}*/
-
+}
 
