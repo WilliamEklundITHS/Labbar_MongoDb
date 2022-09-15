@@ -7,20 +7,24 @@ Website.PrintPage();
 //StyleGenerator StyleWebsite = new StyleGenerator(h1: "Hej klassen", h2: "Viktigt meddelande", primaryColor: "red", coursesArr);
 //StyleWebsite.PrintPage();
 
-abstract class HtmlSkeleton
+interface IHtmlSkeleton
 {
+    void PrintPage();
+}
+class HtmlGenerator : IHtmlSkeleton
+{
+
     protected string docStart = "<!DOCTYPE html>\n" +
-    "<html>\n" + "<body>\n";
+"<html>\n" + "<body>\n";
     protected string h1 = "<h1></h1>\n";
     protected string h2 = "<h2></h2>\n";
     protected string main = "<main>\n" + "</main>\n";
     protected string paragraph = "<p></p>\n";
     protected string docEnd = "</body>\n" + "</html>";
-}
-class HtmlGenerator : HtmlSkeleton
-{
+
     public HtmlGenerator(string h1, string h2, string[] coursesArr)
     {
+
         string InsertParagraphContent(string[] coursesArr)
         {
             string paragraphContent = "";
@@ -30,15 +34,18 @@ class HtmlGenerator : HtmlSkeleton
             }
             return paragraphContent;
         }
+
         main = main.Insert(main.IndexOf("</"), InsertParagraphContent(coursesArr));
         this.h1 = this.h1.Insert(this.h1.IndexOf("</"), h1);
         this.h2 = this.h2.Insert(this.h2.IndexOf("</"), h2);
     }
+
     public void PrintPage()
     {
         Console.Write(docStart + h1 + h2 + main + docEnd);
     }
 }
+
 /*class StyleGenerator : HtmlGenerator
 {
     private string head = "<head>\n</head>\n";
